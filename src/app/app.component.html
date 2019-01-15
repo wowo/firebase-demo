@@ -1,6 +1,26 @@
-<h1>Welcome to Firebase meetupers opinion collector!</h1>
+<br>
+<div class="jumbotron">
+  <h1>Welcome to Firebase meetupers opinion collector!</h1>
+  <button class="btn btn-warning" (click)="propagandaMode()">Show only good reviews</button>
+</div>
 <h2>How would you rate Firebase's ease of use: </h2>
 <ul>
-  <li *ngFor="let m of meetupers | async">{{m.name}} {{m.score}} / 5</li>
+  <li *ngFor="let m of meetupers$ | async">{{m.name}} {{m.score}} / 5</li>
 </ul>
 
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Add your opinion</h5>
+    <div class="form-group">
+      <input placeholder="Your name" class="form-control" [formControl]="name" required>
+    </div>
+    <div class="form-group">
+      <select class="form-control" [formControl]="score" required>
+        <option *ngFor="let opt of [1, 2, 3, 4, 5]" [value]="opt">{{opt}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success" (click)="save()">Save</button>
+    </div>
+  </div>
+</div>
