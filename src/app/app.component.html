@@ -1,11 +1,12 @@
 <br>
 <div class="jumbotron">
   <h1>Welcome to Firebase meetupers opinion collector!</h1>
-  <button class="btn btn-warning" (click)="propagandaMode()">Show only good reviews</button>
+  <button class="btn btn-warning" [ngClass]="{'btn-danger': isPropagandaMode}" (click)="propagandaMode()">Show only good reviews</button>&nbsp;
+  <button class="btn btn-info" (click)="isAdmin = !isAdmin">Admin</button>
 </div>
 <h2>How would you rate Firebase's ease of use: </h2>
 <ul>
-  <li *ngFor="let m of meetupers$ | async">{{m.name}} {{m.score}} / 5</li>
+  <li style="margin-bottom: 0.5em" *ngFor="let m of meetupers$ | async"><strong>{{m.name}}</strong> {{m.score}} / 5 <button class="btn btn-sm btn-danger" (click)="remove(m)" *ngIf="isAdmin">remove</button></li>
 </ul>
 
 <div class="card">

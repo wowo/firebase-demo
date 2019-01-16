@@ -15,7 +15,8 @@ export class AppComponent implements OnInit {
   score = new FormControl('');
 
   isPropagandaMode = false;
-
+  isAdmin = false;
+  
   constructor(private db: AngularFirestore) {}
 
   ngOnInit(): void {
@@ -33,14 +34,21 @@ export class AppComponent implements OnInit {
     });
   }
 
+  remove(meetuper) {
+	this.db.collection('meetupers', ref => ref.where('name', '==', meetuper.name).where('score', '==', meetuper.score))
+		.snapshotChanges().subscribe(x => {
+			if (x.length === 0) {
+				return;
+			}
+			this.db.collection('meetupers').doc(x[0].payload.doc.id).delete().then(() => console.log('Bye'));
+		});
+  }
   propagandaMode() {
-    if (this.isPropagandaMode) {
-      return;
-    }
-
+	this.isPropagandaMode = !this.isPropagandaMode;
+	
     this.meetupers$ = this.db.collection(
       'meetupers',
-      ref => ref.where('score', '>', 3)
+      ref => ref.where('score', '>', this.isPropagandaMode ? 3 : 0)
     ).valueChanges();
   }
 }
