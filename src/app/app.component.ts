@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   save() {
     this.db.collection('meetupers').add({
       name: this.name.value,
-      score: this.score.value as number,
+      score: parseInt(this.score.value),
     }).then(() => {
       this.name.setValue(null);
       this.score.setValue(null);
